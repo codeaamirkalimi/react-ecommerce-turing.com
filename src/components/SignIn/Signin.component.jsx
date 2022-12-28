@@ -77,7 +77,7 @@ const SigninComponent = () => {
             buttonType="google"
             onClick={logGoogleUser}
           >
-            SIGN IN WITH GOOGLE
+            GOOGLE SIGN IN
           </ButtonComponent>
         </div>
       </form>
