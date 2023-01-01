@@ -6,7 +6,7 @@ export const ProductContext = createContext({ products: [] });
 
 export const ProductProvider = ({ children }) => {
   // manage state
-  const [products, setProducts] = useState(PRODUCTS);
+  const [products] = useState(PRODUCTS);
   // pass value
   const value = { products };
 
