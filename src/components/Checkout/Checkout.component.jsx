@@ -2,9 +2,10 @@ import "./Checkout.style.scss";
 import { useContext } from "react";
 import { CartContext } from "../../context/Cart.context";
 import CheckoutItemComponent from "./CheckoutItem.component";
+import { logDOM } from "@testing-library/react";
 
 const CheckoutComponent = () => {
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, totalPrice } = useContext(CartContext);
   return (
     <div className="checkout-container">
       <div className="checkout-header">
@@ -24,10 +25,11 @@ const CheckoutComponent = () => {
           <span>Remove</span>
         </div>
       </div>
-      {cartItems.map((item) => {
-        return <CheckoutItemComponent key={item.id} cartItem={item} />;
+      {cartItems.map((cartItem) => {
+        console.log({ cartItem });
+        return <CheckoutItemComponent key={cartItem.id} cartItem={cartItem} />;
       })}
-      <span className="total">Total: 0</span>
+      <span className="total">Total: ${totalPrice}</span>
     </div>
   );
 };
