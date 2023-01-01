@@ -2,15 +2,13 @@ import "./CheckoutItem.style.scss";
 import { useContext } from "react";
 import { CartContext } from "../../context/Cart.context";
 
-const CheckoutItemComponent = (props) => {
-  const { cartItem } = props;
+const CheckoutItemComponent = ({ cartItem }) => {
   const { name, imageUrl, price, quantity } = cartItem;
-  const { addItemToCart, remoteItemFromCart } = useContext(CartContext);
-  const increaseItem = (cartItem) => {
-    console.log({ cartItem });
-    addItemToCart(cartItem);
-  };
-  const decreaseItem = (cartItem) => remoteItemFromCart(cartItem);
+  const { addItemToCart, removeItemFromCart, deleteItemOnCheckout } =
+    useContext(CartContext);
+  const increaseItem = () => addItemToCart(cartItem);
+  const decreaseItem = () => removeItemFromCart(cartItem);
+  const deleteItem = () => deleteItemOnCheckout(cartItem);
 
   return (
     <div className="checkout-item-container">
@@ -28,7 +26,9 @@ const CheckoutItemComponent = (props) => {
         </div>
       </span>
       <span className="price">{price}</span>
-      <div className="remove-button">&#10005;</div>
+      <div className="remove-button" onClick={deleteItem}>
+        &#10005;
+      </div>
     </div>
   );
 };

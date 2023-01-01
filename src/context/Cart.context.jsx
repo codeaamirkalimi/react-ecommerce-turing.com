@@ -26,7 +26,7 @@ const removeCartItem = (cartItems, itemToRemove) => {
   );
 
   // check if only 1 item left then remove that item
-  if (checkIfItemExistInCart === 1)
+  if (checkIfItemExistInCart === 1 && checkIfItemExistInCart.length > 0)
     return cartItems.filter((item) => {
       return item.id !== itemToRemove.id;
     });
@@ -38,14 +38,21 @@ const removeCartItem = (cartItems, itemToRemove) => {
   });
 };
 
+const removeItemCheckout = (cartItems, itemToRemove) => {
+  return cartItems.filter((item) => {
+    return item.id !== itemToRemove.id;
+  });
+};
+
 export const CartContext = createContext({
   isCartOpen: false,
   setIsCartOpen: () => {},
   cartItems: [],
   addItemToCart: () => {},
   totalItems: 0,
-  remoteItemFromCart: () => {},
+  removeItemFromCart: () => {},
   totalPrice: 0,
+  deleteItemOnCheckout: () => {},
 });
 
 export const CartProvider = ({ children }) => {
@@ -55,21 +62,33 @@ export const CartProvider = ({ children }) => {
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
+    const totalCartCount = cartItems.reduce(
+      (total, cartItem) => total + cartItem.quantity,
+      0
+    );
+    setTotalItems(totalCartCount);
+  }, [cartItems]);
+
+  useEffect(() => {
     const totalPrice = cartItems.reduce(
       (total, cartItem) => total + cartItem.quantity * cartItem.price,
       0
     );
     setTotalPrice(totalPrice);
-  });
+  }, [cartItems]);
 
   const addItemToCart = (productToAdd) => {
     setCartItems(addCartItem(cartItems, productToAdd));
     setTotalItems(totalItems + 1);
   };
 
-  const remoteItemFromCart = (productToRemove) => {
+  const removeItemFromCart = (productToRemove) => {
     setCartItems(removeCartItem(cartItems, productToRemove));
     setTotalItems(totalItems - 1);
+  };
+
+  const deleteItemOnCheckout = (productToRemove) => {
+    setCartItems(removeItemCheckout(cartItems, productToRemove));
   };
 
   const value = {
@@ -78,8 +97,9 @@ export const CartProvider = ({ children }) => {
     cartItems,
     addItemToCart,
     totalItems,
-    remoteItemFromCart,
+    removeItemFromCart,
     totalPrice,
+    deleteItemOnCheckout,
   };
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };

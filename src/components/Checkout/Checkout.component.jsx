@@ -25,7 +25,6 @@ const CheckoutComponent = () => {
         </div>
       </div>
       {cartItems.map((cartItem) => {
-        console.log({ cartItem });
         return <CheckoutItemComponent key={cartItem.id} cartItem={cartItem} />;
       })}
       <span className="total">Total: ${totalPrice}</span>
