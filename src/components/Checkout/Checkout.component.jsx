@@ -2,7 +2,6 @@ import "./Checkout.style.scss";
 import { useContext } from "react";
 import { CartContext } from "../../context/Cart.context";
 import CheckoutItemComponent from "./CheckoutItem.component";
-import { logDOM } from "@testing-library/react";
 
 const CheckoutComponent = () => {
   const { cartItems, totalPrice } = useContext(CartContext);
